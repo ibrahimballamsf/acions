@@ -1,5 +1,5 @@
 name: test_code
-on: [push]
+on: [push,workflow_dispatch]
 jobs:
   firstjob:
     runs-on: ubuntu-latest
@@ -14,5 +14,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+  finalizer:
+    runs-on: ubuntu-latest
+    needs: [deploy,firstjob]
+    if: "success()"
+    steps:
+     - name: finalize repo
+       run: "echo hello there"
  
 
